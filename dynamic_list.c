@@ -54,7 +54,7 @@ void Resize(DynList *L) {
     int newCapacity = L->capacity * 2;
     /* realloc：在原来那块内存的基础上，重新分配更大的内存
      * 它会自动把旧数据拷贝到新内存中，不需要我们手动搬 */
-    int *newData = (int *)realloc(L->data, newCapacity * sizeof(int));
+    int *newData = (int *)realloc(L->data, (size_t)newCapacity * sizeof(int));
     if (newData == NULL) {
         printf("扩容失败！\n");
         exit(1);
