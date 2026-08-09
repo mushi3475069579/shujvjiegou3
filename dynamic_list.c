@@ -24,14 +24,12 @@ typedef struct {
  * 用 malloc 申请一块能放 INIT_CAPACITY 个 int 的内存
  *------------------------------*/
 void InitList(DynList *L) {
-    L->data = (int *)malloc(INIT_CAPACITY * sizeof(int));
-    /* malloc 申请失败时 data 为 NULL，要检查 */
-    if (L->data == NULL) {
-        printf("内存分配失败！\n");
-        exit(1);  /* 直接退出程序 */
+    L->data=(int *)malloc(INIT_CAPACITY * sizeof(int));
+    if(L->data==NULL){
+        exit(1);
     }
-    L->length = 0;
-    L->capacity = INIT_CAPACITY;
+    L->length=0;
+    L->capacity=INIT_CAPACITY;
 }
 
 /*------------------------------
@@ -51,17 +49,15 @@ void DestroyList(DynList *L) {
  * 用 realloc 把容量扩大为原来的 2 倍
  *------------------------------*/
 void Resize(DynList *L) {
-    int newCapacity = L->capacity * 2;
-    /* realloc：在原来那块内存的基础上，重新分配更大的内存
-     * 它会自动把旧数据拷贝到新内存中，不需要我们手动搬 */
-    int *newData = (int *)realloc(L->data, (size_t)newCapacity * sizeof(int));
-    if (newData == NULL) {
-        printf("扩容失败！\n");
+    int NewCapacity=L->capacity*2;
+    int *NewData=(int*)realloc(NewCapacity*sizeof(int));
+    if(NewData==NULL){
         exit(1);
     }
-    L->data = newData;
-    L->capacity = newCapacity;
-    printf("  [扩容] 容量从 %d 扩大到 %d\n", L->capacity / 2, newCapacity);
+    memcpy(NewData,L->data,L->length*sizeof(int));
+    L->data=NewData;
+    L->capacity=NewCapacity;
+    printf("  [扩容] 容量从 %d 扩大到 %d\n", L->capacity / 2, NewCapacity);
 }
 
 /*------------------------------
@@ -100,22 +96,10 @@ void Append(DynList *L, int e) {
  *------------------------------*/
 int ListInsert(DynList *L, int i, int e) {
     int j;
-    /* 步骤 1：检查插入位置是否合法 */
-    if (i < 1 || i > L->length + 1) {
-        printf("插入位置不合法！(应在 1~%d 之间)\n", L->length + 1);
-        return 0;
+    for(int j=L->length-1;j>=i-1;j--){
+        L->data[j+1]=L->data[j];
     }
-    /* 步骤 2：如果满了，先扩容 */
-    if (L->length >= L->capacity) {
-        Resize(L);
-    }
-    /* 步骤 3：从最后一个元素开始，依次后移一位，腾出位置 */
-    for (j = L->length - 1; j >= i - 1; j--) {
-        L->data[j + 1] = L->data[j];
-    }
-    /* 步骤 4：把新元素放到空出来的位置 */
-    L->data[i - 1] = e;
-    /* 步骤 5：表长加 1 */
+    L->data[i-1]=e;
     L->length++;
     return 1;
 }
@@ -172,6 +156,10 @@ int main() {
     DynList L;
     int e;
 
+
+
+     system("chcp 65001");  /* 设置控制台编码为 UTF-8，解决中文乱码 */
+
     /* 1. 初始化 */
     InitList(&L);
     printf("===== 动态数组线性表示例 =====\n");
@@ -218,6 +206,11 @@ int main() {
     printf("[6] 销毁线性表，释放内存\n");
     DestroyList(&L);
     printf("销毁完成：表长 = %d, 容量 = %d\n", L.length, L.capacity);
+
+    /* 等待用户输入 q 退出 */
+    printf("\n输入 q 退出程序...\n");
+    while (getchar() != 'q')
+        ;
 
     return 0;
 }

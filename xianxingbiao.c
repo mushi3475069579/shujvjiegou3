@@ -123,6 +123,8 @@ int main() {
     SeqList L;
     int e;
 
+    system("chcp 65001");  /* 设置控制台编码为 UTF-8，解决中文乱码 */
+
     /* 1. 初始化 */
     InitList(&L);
     printf("===== 顺序线性表示例 =====\n\n");
@@ -164,6 +166,11 @@ int main() {
     /* 6. 按位置获取元素 */
     printf("[5] 获取第 2 个位置的元素\n");
     printf("第 2 个位置的元素 = %d\n\n", GetElem(L, 2));
+
+    /* 等待用户输入 q 退出 */
+    printf("\n输入 q 退出程序...\n");
+    while (getchar() != 'q')
+        ;
 
     return 0;
 }
