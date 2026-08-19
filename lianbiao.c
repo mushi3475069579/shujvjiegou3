@@ -158,7 +158,95 @@ int main() {
     Init(&head);
     printf("===== 链表练习 =====\n\n");
 
-    /* 在这里写你的测试代码 */
+    /* 测试 1: 初始化后判断是否为空 */
+    printf("[测试1] 初始化后链表是否为空: %s\n", isEmpty(&head) ? "是" : "否");
+
+    /* 测试 2: 依次插入几个元素 */
+    printf("\n[测试2] 依次插入 10, 20, 30, 40, 50\n");
+    ListInsert(&head, 1, 10);
+    ListInsert(&head, 2, 20);
+    ListInsert(&head, 3, 30);
+    ListInsert(&head, 4, 40);
+    ListInsert(&head, 5, 50);
+    printf("当前链表: ");
+    PrintList(&head);
+    printf("链表长度: %d\n", ListLength(&head));
+    printf("链表是否为空: %s\n", isEmpty(&head) ? "是" : "否");
+
+    /* 测试 3: 在指定位置插入 */
+    printf("\n[测试3] 在第 3 个位置插入 25\n");
+    ListInsert(&head, 3, 25);
+    printf("当前链表: ");
+    PrintList(&head);
+    printf("链表长度: %d\n", ListLength(&head));
+
+    /* 测试 4: 在第 1 个位置插入 */
+    printf("\n[测试4] 在第 1 个位置插入 5\n");
+    ListInsert(&head, 1, 5);
+    printf("当前链表: ");
+    PrintList(&head);
+    printf("链表长度: %d\n", ListLength(&head));
+
+    /* 测试 5: 在末尾插入 */
+    printf("\n[测试5] 在第 8 个位置(末尾)插入 60\n");
+    ListInsert(&head, 8, 60);
+    printf("当前链表: ");
+    PrintList(&head);
+    printf("链表长度: %d\n", ListLength(&head));
+
+    /* 测试 6: 按位置获取元素 */
+    printf("\n[测试6] 获取第 1 个位置的元素\n");
+    GetElem(&head, 1, &e);
+    printf("第 1 个位置的元素: %d\n", e);
+
+    printf("\n获取第 5 个位置的元素\n");
+    GetElem(&head, 5, &e);
+    printf("第 5 个位置的元素: %d\n", e);
+
+    /* 测试 7: 按值查找 */
+    printf("\n[测试7] 查找元素 30 的位置\n");
+    int pos = LocateElem(&head, 30);
+    if (pos != 0)
+        printf("元素 30 在第 %d 个位置\n", pos);
+    else
+        printf("链表中没有元素 30\n");
+
+    printf("\n查找元素 100 的位置\n");
+    pos = LocateElem(&head, 100);
+    if (pos != 0)
+        printf("元素 100 在第 %d 个位置\n", pos);
+    else
+        printf("链表中没有元素 100\n");
+
+    /* 测试 8: 删除第 1 个位置的元素 */
+    printf("\n[测试8] 删除第 1 个位置的元素\n");
+    ListDelete(&head, 1, &e);
+    printf("被删除的元素: %d\n", e);
+    printf("当前链表: ");
+    PrintList(&head);
+    printf("链表长度: %d\n", ListLength(&head));
+
+    /* 测试 9: 删除中间位置的元素 */
+    printf("\n[测试9] 删除第 3 个位置的元素\n");
+    ListDelete(&head, 3, &e);
+    printf("被删除的元素: %d\n", e);
+    printf("当前链表: ");
+    PrintList(&head);
+    printf("链表长度: %d\n", ListLength(&head));
+
+    /* 测试 10: 删除末尾的元素 */
+    printf("\n[测试10] 删除最后一个位置的元素\n");
+    ListDelete(&head, ListLength(&head), &e);
+    printf("被删除的元素: %d\n", e);
+    printf("当前链表: ");
+    PrintList(&head);
+    printf("链表长度: %d\n", ListLength(&head));
+
+    /* 测试 11: 销毁链表 */
+    printf("\n[测试11] 销毁链表\n");
+    DestroyList(&head);
+    printf("销毁完成\n");
+    printf("销毁后链表长度: %d\n", ListLength(&head));
 
     printf("\n输入 q 退出程序...\n");
     while (getchar() != 'q')

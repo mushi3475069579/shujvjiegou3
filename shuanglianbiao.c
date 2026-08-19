@@ -17,28 +17,41 @@ typedef struct dnode {
  * 1. 初始化双链表（带头节点）
  *------------------------------*/
 int Init(dnode *L) {
-
+    L->next = NULL;
+    L->prior = NULL;
+    return 1;
 }
 
 /*------------------------------
  * 2. 判断链表是否为空
  *------------------------------*/
 int isEmpty(dnode *L) {
-
+    return L->next == NULL;
 }
 
 /*------------------------------
  * 3. 遍历打印双链表（向后遍历）
  *------------------------------*/
 void PrintList(dnode *L) {
-
+    dnode *p=L->next;
+    while(p!=NULL){
+        printf("%d ",p->data);
+        p=p->next;
+    }
+    printf("\n");
 }
 
 /*------------------------------
  * 4. 求链表长度
  *------------------------------*/
 int ListLength(dnode *L) {
-
+    int len=0;
+    dnode *p=L->next;
+    while(p!=NULL){
+        len++;
+        p=p->next;
+    }
+    return len;
 }
 
 /*------------------------------
@@ -53,7 +66,21 @@ int ListLength(dnode *L) {
  * 返回值：1 成功，0 失败
  *------------------------------*/
 int ListInsert(dnode *L, int i, int e) {
-
+    dnode *p=L;
+    if(i<1||i>ListLength(L)+1){
+        return 0;
+    }
+    for(int j=0;j<i-1;j++){
+        p=p->next;
+    }
+    dnode *s=(dnode*)malloc(sizeof(dnode));
+    s->data=e;
+    s->next=p->next;
+    s->prior=p;
+    p->next=s;
+    s->next->prior=s;
+    s->next=s;
+    return 1;
 }
 
 /*------------------------------
@@ -67,21 +94,48 @@ int ListInsert(dnode *L, int i, int e) {
  * 返回值：1 成功，0 失败
  *------------------------------*/
 int ListDelete(dnode *L, int i, int *e) {
-
+    if(i<1||i>ListLength(L)){
+        return 0;
+    }
+    dnode *p=L;
+    for(int j=1;j<i;j++){
+        p=p->next;
+    }
+    dnode *q=p->next;
+    p->next=q->next;
+    q->next->prior=p;
+    free(q);
+    *e=q->data;
+    return 1;
 }
 
 /*------------------------------
  * 7. 按值查找元素
  *------------------------------*/
 int LocateElem(dnode *L, int e) {
-
+    dnode *p=L->next;
+    while(p!=NULL){
+        if(p->data==e){
+            return 1;
+        }
+        p=p->next;
+    }
+    return 0;
 }
 
 /*------------------------------
  * 8. 按位置获取元素
  *------------------------------*/
 int GetElem(dnode *L, int i, int *e) {
-
+    if(i<1||i>ListLength(L)){
+        return 0;
+    }
+    dnode *p=L->next;
+    for(int j=1;j<i;j++){
+        p=p->next;
+    }
+    *e=p->data;
+    return 1;
 }
 
 /*------------------------------
@@ -89,7 +143,7 @@ int GetElem(dnode *L, int i, int *e) {
  * 从最后一个节点开始，顺着 prior 指针往前走
  *------------------------------*/
 void PrintReverse(dnode *L) {
-
+    
 }
 
 /*------------------------------
